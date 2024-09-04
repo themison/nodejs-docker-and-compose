@@ -31,7 +31,6 @@ services:
       - POSTGRES_USER=student
       - POSTGRES_PASSWORD=123
       - POSTGRES_DB=kupipodariday
-      - POSTGRES_HOST=db
     restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data
