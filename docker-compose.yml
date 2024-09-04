@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  frontend:
+    tty: true
+    container_name: compose-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports: 
+      - "8081:80"
+  backend:
+    container_name: compose-backend
+    image: "compose-backend"
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:3000"
+    depends_on:
+      - database
+    env_file: .env
+    restart: unless-stopped
+  database:
+    container_name: database
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=student
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=kupipodariday
+      - POSTGRES_HOST=db
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
